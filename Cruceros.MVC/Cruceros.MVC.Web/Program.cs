@@ -1,7 +1,14 @@
+using Cruceros.Data.Entidades;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Registrar el contexto de base de datos CrucerosContext
+builder.Services.AddDbContext<CrucerosContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StringConnection")));
 
 var app = builder.Build();
 
