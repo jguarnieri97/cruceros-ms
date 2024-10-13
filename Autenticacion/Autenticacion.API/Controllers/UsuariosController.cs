@@ -10,17 +10,17 @@ namespace Autenticacion.API.Controllers;
 public class UsuariosController : ControllerBase
 {
 
-    IUsuariosService _usuariosService { get; set; }
+    IUserService _usuariosService { get; set; }
 
-    public UsuariosController(IUsuariosService usuariosService)
+    public UsuariosController(IUserService usuariosService)
     {
         _usuariosService = usuariosService;
     }
 
     [HttpPost("crear")]
-    public void Crear()
+    public void Crear(RegisterRequestDto request)
     {
-        //method implementation
+        _usuariosService.crearUsuario(request);
     }
 
     [HttpPost("login")]

@@ -1,4 +1,7 @@
+using Autenticacion.API.Repository;
 using Autenticacion.API.Service;
+using Autenticacion.Data.Entidades;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IUsuariosService, UsuariosService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddDbContext<PrograWeb3Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StringConnection")));
 
 var app = builder.Build();
 
