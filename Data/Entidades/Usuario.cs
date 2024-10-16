@@ -16,4 +16,13 @@ public partial class Usuario
     public string LastName { get; set; } = null!;
 
     public string Password { get; set; } = null!;
+
+    public Usuario(string userName, string email, string firstName, string lastName, string password)
+    {
+        UserName = userName;
+        Email = email;
+        FirstName = firstName;
+        LastName = lastName;
+        Password = password;
+    }
 }

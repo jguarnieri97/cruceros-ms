@@ -1,0 +1,6 @@
+@Cruceros.API.Autenticacion_HostAddress = http://localhost:5070
+
+GET {{Cruceros.API.Autenticacion_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
