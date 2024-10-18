@@ -1,0 +1,6 @@
+@Cruceros.API.Reservas_HostAddress = http://localhost:5232
+
+GET {{Cruceros.API.Reservas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
