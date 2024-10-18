@@ -1,0 +1,34 @@
+.confirmed-box{
+    border: 2px solid #0F3275;;
+    width: 1100px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-confirmed{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-confirmed{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-btn-index{
+    margin-top: 20px;
+}
+
+.confirmed-message{
+    font-size: 45px;
+}
+
+.check{
+    font-size: 100px;
+}

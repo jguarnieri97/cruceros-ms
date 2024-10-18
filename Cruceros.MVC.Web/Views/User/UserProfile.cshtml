@@ -1,0 +1,58 @@
+﻿@{
+    <head>
+        <link rel="stylesheet" href="~/css/user-profile.css" asp-append-version="true" />
+    </head>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            @* TO DO: Darle funcionalidad para que guarde los nuevos datos del usuario si se llegan a cambiar*@
+            <form class="profile-form">
+                <div class="profile-row-form">
+                    <span class="profile-title">TUS DATOS: </span>
+                    <button type="submit" class="btn btn-primary btn-naveo">EDITAR PERFIL</button>
+                </div>
+                <label class="label-style" for="nombre">NOMBRE:</label>
+                <input type="text" class="form-control profile-form-input" id="nombre" placeholder="Mi_Nombre">
+                <label class="label-style" for="email">E-Mail:</label>
+                <input type="email" class="form-control profile-form-input" id="email" placeholder="Mi_Mail">
+            </form>
+
+            <div class="reservas-container">
+                <span class="profile-title">TUS RESERVAS:</span>
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Fecha reserva</th>
+                            <th>Habitación</th>
+                            <th>Precio</th>
+                            <th>Cant. Pasajeros</th>
+                            <th>Duración Viaje</th>
+                            <th>Estado de Reserva</th>
+                        </tr>
+                    </thead>
+                    @* TO DO: Estos datos los tiene que traer desde la bdd*@
+                    <tbody>
+                        <tr>
+                            <td>2024-10-15</td>
+                            <td>Suite Deluxe</td>
+                            <td>$1,500.00</td>
+                            <td>2</td>
+                            <td>7 días</td>
+                            <td>Confirmada</td>
+                        </tr>
+                        <tr>
+                            <td>2024-10-20</td>
+                            <td>Cabina Interior</td>
+                            <td>$850.00</td>
+                            <td>4</td>
+                            <td>5 días</td>
+                            <td>Pendiente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

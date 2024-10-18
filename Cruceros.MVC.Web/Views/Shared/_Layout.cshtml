@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Cruceros.MVC.Web</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Cruceros.MVC.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/nav-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/btn-naveo.css" asp-append-version="true" />
+</head>
+<body>
+    <nav>
+        <ul class="nav nav-style justify-content-between w-100">
+            <li class="nav-item">
+                <a href="#" style="margin-left: 30px; color: white; font-size: 40px; text-decoration: none;">NAVEO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="color: white;" href="#">Mi_Nombre</a>
+                <div style="height: 40px; width: 40px; border-radius: 50%; border: 2px solid white; margin-right: 30px;"></div>
+            </li>
+        </ul>
+    </nav>
+
+    @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
