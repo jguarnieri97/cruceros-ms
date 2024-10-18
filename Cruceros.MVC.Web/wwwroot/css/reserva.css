@@ -1,0 +1,38 @@
+.col-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-pago{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 70%;
+    gap: 20px;
+}
+
+.form-pago-style{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.reserva-text{
+    font-size: 35px;
+    color: #0F3275;
+    font-weight: 500;
+}
+
+.complete-data-text{
+    font-size: 25px;
+    font-weight: 500;
+    color: #1E1E1E;
+    margin-top: -20px;
+}

@@ -1,0 +1,19 @@
+body {
+    background-color: #DDDEEA;
+}
+
+.nav-style {
+    background-color: #0F3275;
+    height: 8%;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-link{
+    color: white;
+}

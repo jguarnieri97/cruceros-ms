@@ -1,0 +1,9 @@
+.btn-naveo{
+    height: 35px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0%;
+    background-color: #0F3275;
+}

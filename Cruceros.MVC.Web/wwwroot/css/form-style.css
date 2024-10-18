@@ -1,0 +1,45 @@
+.style-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.form-row {
+    width: 70%;
+}
+
+.form-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(3, 3, 3, 0.7);
+    padding: 50px;
+    border-radius: 20px;
+}
+
+.form-tittle {
+    color: white;
+    margin-bottom: 30px;
+}
+
+.form-footer {
+    color: white;
+    margin-top: 30px;
+}
+
+.form-footer a {
+    color: white;
+}
+
+.form-btn-submit {
+    width: 30%;
+    background-color: #0F3275;
+    border: none;
+}
+
+.form-input {
+    width: 100%;
+}
