@@ -9,7 +9,7 @@ namespace Cruceros.API.Autenticacion.Controllers;
 public class UsuariosController : ControllerBase
 {
 
-    IUserService _usuariosService { get; set; }
+    private IUserService _usuariosService { get; set; }
 
     public UsuariosController(IUserService usuariosService)
     {
