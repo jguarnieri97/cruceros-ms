@@ -1,4 +1,6 @@
 ﻿using Cruceros.Data.Entidades;
+using Cruceros.MVC.Web.Models;
+using Cruceros.MVC.Web.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +8,11 @@ namespace Cruceros.MVC.Web.Controllers
 {
     public class UserController : Controller
     {
-        private CrucerosContext _ctx;
+        private IUserService _userService;
 
-        public UserController(CrucerosContext ctx)
+        public UserController(IUserService userService)
         {
-            _ctx = ctx;
+            _userService = userService;
         }
 
         public ActionResult Login()
@@ -26,6 +28,15 @@ namespace Cruceros.MVC.Web.Controllers
         public ActionResult UserProfile()
         {
             return View();
+        }
+
+        public ActionResult RegisterUser(RegisterModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                _userService.RegisterUser(user);
+            }
+            return View("SignUp", user);
         }
     }
 }

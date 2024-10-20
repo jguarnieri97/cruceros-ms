@@ -1,6 +1,5 @@
 ﻿using Cruceros.API.Autenticacion.Dto;
 using Cruceros.API.Autenticacion.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cruceros.API.Autenticacion.Controllers;
