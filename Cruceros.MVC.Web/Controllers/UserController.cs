@@ -35,6 +35,7 @@ namespace Cruceros.MVC.Web.Controllers
             if (ModelState.IsValid)
             {
                 _userService.RegisterUser(user);
+                return View("Login");
             }
             return View("SignUp", user);
         }
