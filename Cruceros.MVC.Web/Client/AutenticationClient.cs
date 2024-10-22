@@ -1,12 +1,14 @@
 ﻿using Cruceros.MVC.Web.Dto;
 using Cruceros.MVC.Web.Exceptions;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace Cruceros.MVC.Web.Client;
 
 public interface IAutenticationClient
 {
     public void RegisterUser(RegisterUserDto request);
+    public Task<LoginResponseDto> LoginUser(LoginRequestDto request);
 }
 
 public class AutenticationClient : IAutenticationClient
@@ -31,6 +33,21 @@ public class AutenticationClient : IAutenticationClient
         catch (Exception e) 
         {
             throw new AutenticationClientException(e.Message);    
+        }
+    }
+
+    public async Task<LoginResponseDto> LoginUser(LoginRequestDto request)
+    {
+        try
+        {
+            var content = JsonContent.Create(request);
+            var response = await _httpClient.PostAsync(BASE_URI + "Usuarios/login", content);
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<LoginResponseDto>(json);
+        }
+        catch (Exception e)
+        {
+            throw new AutenticationClientException(e.Message);
         }
     }
 }

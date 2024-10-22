@@ -39,5 +39,16 @@ namespace Cruceros.MVC.Web.Controllers
             }
             return View("SignUp", user);
         }
+
+        public ActionResult SignIn(LoginModel login)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userService.LoginUser(login);
+                TempData["Username"] = user.Username;
+                return RedirectToAction("Index", "Home");
+            }
+            return View("Login", login);
+        }
     }
 }

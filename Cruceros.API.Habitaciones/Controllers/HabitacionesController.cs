@@ -18,6 +18,7 @@ namespace Cruceros.API.Habitaciones.Controllers
         [HttpGet("ObtenerTodas")]
         public IEnumerable<HabitacionesDto> ObtenerTodas()
         {
+            //TODO: intentar devolver el dto de la habitacion como A1, B2, etc
             return _habitacionesService.GetAll();
         }
     }

@@ -13,10 +13,12 @@ public interface IUserService
 public class UserService : IUserService
 {
     private IUserRepository _userRepository;
+    private ITokenService _tokenService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, ITokenService tokenService)
     {
         _userRepository = userRepository;
+        _tokenService = tokenService;
     }
 
     public void crearUsuario(RegisterRequestDto request)
@@ -26,9 +28,10 @@ public class UserService : IUserService
 
     public LoginResponseDto loginUsuario(LoginRequestDto request)
     {
-        /*var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-        return new LoginResponseDto("nick", token);*/
-        throw new NotImplementedException();
+        var user = _userRepository.Login(request.Email, request.Password);
+        var token = _tokenService.createToken(user.UserName);
+
+        return new LoginResponseDto(user.UserName, token);
     }
 
     private Usuario buildUser(RegisterRequestDto requestDto)

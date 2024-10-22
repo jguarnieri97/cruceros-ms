@@ -8,16 +8,16 @@ namespace Cruceros.MVC.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private CrucerosContext _ctx;
 
-        public HomeController(ILogger<HomeController> logger, CrucerosContext ctx)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _ctx = ctx;
         }
 
         public IActionResult Index()
         {
+            var username = TempData["Username"];
+            ViewData["Username"] = username;
             return View();
         }
 
