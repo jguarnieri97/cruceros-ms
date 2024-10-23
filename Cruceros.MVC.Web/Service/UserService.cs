@@ -13,10 +13,12 @@ public interface IUserService
 public class UserService : IUserService
 {
     private IAutenticationClient _autenticationClient;
+    private ISessionContext _sessionContext;
 
-    public UserService(IAutenticationClient autenticationClient)
+    public UserService(IAutenticationClient autenticationClient, ISessionContext sessionContext)
     {
         _autenticationClient = autenticationClient;
+        _sessionContext = sessionContext;
     } 
 
     public void RegisterUser(RegisterModel model)
@@ -32,8 +34,10 @@ public class UserService : IUserService
         {
             response.Wait();
         }
+
         var user = response.Result;
-        //TODO: return username, save token in server
+
+        _sessionContext.SaveSession(user.Username, user.Token);
 
         return converResponseDtoToModel(user);
     }

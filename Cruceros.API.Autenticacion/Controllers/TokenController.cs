@@ -15,13 +15,13 @@ public class TokenController : ControllerBase
         _tokenService = tokenService;
     }
 
-    [HttpPost]
-    public void Validate(string token)
+    [HttpPost("validate")]
+    public void Validate(TokenRequestDto request)
     {
-        _tokenService.validateToken(token);
+        _tokenService.validateToken(request.Token);
     }
 
-    [HttpGet]
+    [HttpGet("create")]
     public LoginResponseDto Create(string userName)
     {
         var token = _tokenService.createToken(userName);

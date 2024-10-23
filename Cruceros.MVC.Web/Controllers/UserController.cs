@@ -1,7 +1,5 @@
-﻿using Cruceros.Data.Entidades;
-using Cruceros.MVC.Web.Models;
+﻿using Cruceros.MVC.Web.Models;
 using Cruceros.MVC.Web.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cruceros.MVC.Web.Controllers

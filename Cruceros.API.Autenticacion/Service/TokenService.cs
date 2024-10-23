@@ -14,7 +14,7 @@ public interface ITokenService
 
 public class TokenService : ITokenService
 {
-    public static List<string> _sessions { get; set; }
+    private static List<string> _sessions;
 
     public TokenService()
     {

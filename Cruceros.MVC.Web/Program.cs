@@ -11,8 +11,12 @@ builder.Services.AddControllersWithViews();
 // Registrar el contexto de base de datos CrucerosContext
 builder.Services.AddDbContext<CrucerosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StringConnection")));
+
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAutenticationClient, AutenticationClient>();
+builder.Services.AddScoped<ISessionContext, SessionContext>();
+builder.Services.AddScoped<IGatewayClient, GatewayClient>();
 
 var app = builder.Build();
 
