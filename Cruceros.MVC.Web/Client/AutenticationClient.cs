@@ -7,7 +7,7 @@ namespace Cruceros.MVC.Web.Client;
 
 public interface IAutenticationClient
 {
-    public void RegisterUser(RegisterUserDto request);
+    public Task RegisterUser(RegisterUserDto request);
     public Task<LoginResponseDto> LoginUser(LoginRequestDto request);
 }
 
@@ -23,7 +23,7 @@ public class AutenticationClient : IAutenticationClient
             new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public async void RegisterUser(RegisterUserDto request)
+    public async Task RegisterUser(RegisterUserDto request)
     {
         try 
         {

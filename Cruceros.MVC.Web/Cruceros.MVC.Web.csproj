@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cruceros.API.Gateway\Cruceros.API.Gateway.csproj" />
     <ProjectReference Include="..\Data\Cruceros.Data.csproj" />
   </ItemGroup>
 
