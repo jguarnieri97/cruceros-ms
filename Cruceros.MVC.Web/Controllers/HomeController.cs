@@ -2,27 +2,28 @@ using Cruceros.MVC.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Cruceros.Data.Entidades;
+using Cruceros.MVC.Web.Client;
 
 namespace Cruceros.MVC.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private CrucerosContext _ctx;
+        private IGatewayClient _gatewayClient;
 
-        public HomeController(ILogger<HomeController> logger, CrucerosContext ctx)
+        public HomeController(ILogger<HomeController> logger, IGatewayClient gatewayClient)
         {
             _logger = logger;
-            _ctx = ctx;
+            _gatewayClient = gatewayClient;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var username = TempData["Username"];
+            ViewData["Username"] = username;
 
-        public IActionResult Privacy()
-        {
+            _gatewayClient.Prueba(username.ToString());
+
             return View();
         }
 

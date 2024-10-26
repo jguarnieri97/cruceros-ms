@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
 }
+@model Cruceros.MVC.Web.Models.LoginModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,16 +20,18 @@
         <div class="row form-row">
             <div class="col form-col">
                 <h3 class="form-tittle">INICIA SESION</h3>
-                <form class="style-form">
+                <form asp-action="SignIn" class="style-form">
                     <div class="mb-3 form-input">
-                        <input type="email" class="form-control" id="email" placeholder="INGRESA TU MAIL:">
+                        <input asp-for="Email" type="email" class="form-control" id="email" placeholder="INGRESA TU MAIL:">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-input">
-                        <input type="password" class="form-control" id="password" placeholder="INGRESA TU CONTRASEÑA:">
+                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="INGRESA TU CONTRASEÑA:">
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary form-btn-submit">LISTO</button>
                 </form>
-                <h5 class="form-footer">¿Todavía no tienes una cuenta? <a href="#">Registrate</a></h5>
+                <h5 class="form-footer">¿Todavía no tienes una cuenta? <a href="User/SignUp">Registrate</a></h5>
             </div>
         </div>
     </div>

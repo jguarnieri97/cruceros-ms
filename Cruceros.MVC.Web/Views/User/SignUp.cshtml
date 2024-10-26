@@ -1,6 +1,7 @@
 ﻿@{
     Layout = null;
 }
+@model Cruceros.MVC.Web.Models.RegisterModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,22 +20,30 @@
         <div class="row form-row">
             <div class="col form-col">
                 <h3 class="form-tittle">REGISTRATE</h3>
-                <form class="style-form">
+                <form asp-action="RegisterUser" method="post" class="style-form">
                     <div class="mb-3 form-input">
-                        <input type="text" class="form-control" id="name" placeholder="INGRESA TU NOMBRE:">
+                        <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder="INGRESA TU NOMBRE:">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-input">
-                        <input type="email" class="form-control" id="email" placeholder="INGRESA TU MAIL:">
+                        <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder="INGRESA TU APELLIDO:">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-input">
-                        <input type="password" class="form-control" id="password" placeholder="INGRESA TU CONTRASEÑA:">
+                        <input asp-for="Email" type="email" class="form-control" id="email" placeholder="INGRESA TU MAIL:">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="mb-3 form-input">
-                        <input type="password" class="form-control" id="re-password" placeholder="REINGRESA TU CONTRASEÑA:">
+                        <input asp-for="Username" type="text" class="form-control" id="username" placeholder="INGRESA TU NOMBRE DE USUARIO:">
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-input">
+                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="INGRESA TU CONTRASEÑA:">
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary form-btn-submit">LISTO</button>
                 </form>
-                <h5 class="form-footer">¿Ya tienes una cuenta? <a href="#">Inicia Sesion</a></h5>
+                <h5 class="form-footer">¿Ya tienes una cuenta? <a href="../../">Inicia Sesion</a></h5>
             </div>
         </div>
     </div>
