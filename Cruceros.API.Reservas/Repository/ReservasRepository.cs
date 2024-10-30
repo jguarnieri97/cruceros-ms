@@ -8,6 +8,7 @@ namespace Cruceros.API.Reservas.Repository
     {
         public IEnumerable<Reserva> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo);
         void RealizarReserva(RealizarReservaDto realizarReservaDto);
+        bool VerificarReserva(RealizarReservaDto realizarReservaDto);
     }
     public class ReservasRepository : IReservasRepository
     {
@@ -24,18 +25,18 @@ namespace Cruceros.API.Reservas.Repository
                 .ToList();
         }
 
-        public void RealizarReserva(RealizarReservaDto realizarReservaDto)
+        public bool VerificarReserva(RealizarReservaDto realizarReservaDto)
         {
-            var fechasConflicto = _ctx.Reservas.Include(r => r.DateCodNavigation)
+            var estaReservado = _ctx.Reservas.Include(r => r.DateCodNavigation)
                                   .Any(r => r.CabinCod == realizarReservaDto.CabinCod &&
                                 ((DateOnly.FromDateTime(realizarReservaDto.DateStart) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(realizarReservaDto.DateStart) >= r.DateCodNavigation.DateStart) ||
                                 (DateOnly.FromDateTime(realizarReservaDto.DateEnd) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(realizarReservaDto.DateEnd) >= r.DateCodNavigation.DateStart)));
 
-            if (fechasConflicto)
-            {
-                throw new Exception("La cabina ya esta reservada");
-            }
+            return estaReservado;
+        }
 
+        public void RealizarReserva(RealizarReservaDto realizarReservaDto)
+        {
             var fecha = new Fecha
             {
                 DateStart = DateOnly.FromDateTime(realizarReservaDto.DateStart),

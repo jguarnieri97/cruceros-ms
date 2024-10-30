@@ -36,7 +36,13 @@ namespace Cruceros.API.Reservas.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpPost("VerificarReserva")]
+        public IActionResult VerificarReserva([FromBody] RealizarReservaDto realizarReservaDto)
+        {
+            bool reservado = _reservasService.VerificarReserva(realizarReservaDto);
+            return reservado ? BadRequest("La habitación se encuentra reservada") : Ok("Se puede realizar la reserva");
         }
     }
 }
