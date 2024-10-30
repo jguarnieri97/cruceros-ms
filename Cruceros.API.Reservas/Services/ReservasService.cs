@@ -7,6 +7,7 @@ namespace Cruceros.API.Reservas.Services
     public interface IReservasService
     {
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo);
+        void RealizarReserva(RealizarReservaDto realizarReservaDto);
     }
     public class ReservasService : IReservasService
     {
@@ -14,7 +15,7 @@ namespace Cruceros.API.Reservas.Services
 
         public ReservasService(IReservasRepository reservasRepository)
         {
-            _reservasRepository = reservasRepository;   
+            _reservasRepository = reservasRepository;
         }
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo)
         {
@@ -30,6 +31,19 @@ namespace Cruceros.API.Reservas.Services
 
 
             return reservasDto;
+        }
+
+        public void RealizarReserva(RealizarReservaDto realizarReservaDto)
+        {
+            try
+            {
+                _reservasRepository.RealizarReserva(realizarReservaDto);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

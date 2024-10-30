@@ -23,5 +23,20 @@ namespace Cruceros.API.Reservas.Controllers
 
             return _reservasService.GetReservasBetweenDates(dateFromOnly, dateToOnly);
         }
+
+        [HttpPost("RealizarReserva")]
+        public IActionResult RealizarReserva([FromBody] RealizarReservaDto realizarReservaDto)
+        {
+            try
+            {
+                _reservasService.RealizarReserva(realizarReservaDto);
+                return Ok("Reserva realizada con exito");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
