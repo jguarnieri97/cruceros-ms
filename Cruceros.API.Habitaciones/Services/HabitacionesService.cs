@@ -1,7 +1,5 @@
 ﻿using Cruceros.API.Habitaciones.Dto;
 using Cruceros.API.Habitaciones.Repository;
-using Cruceros.Data.Entidades;
-using Microsoft.EntityFrameworkCore;
 
 namespace Cruceros.API.Habitaciones.Services
 {

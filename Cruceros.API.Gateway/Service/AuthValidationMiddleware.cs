@@ -13,13 +13,12 @@ public class AuthValidationMiddleware
 
     public async Task InvokeAsync(HttpContext context, IAutenticationClient autenticationClient)
     {
-        //TODO: sacar token del header
         var token = context.Request.Headers.Authorization;
         token = token.ToString().Substring("Bearer ".Length).Trim();
         await autenticationClient.VerifySession(token);
 
         // Call the next delegate/middleware in the pipeline.
-        await _next(context);
+       await _next(context);
     }
 }
 

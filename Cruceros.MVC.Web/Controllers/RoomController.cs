@@ -6,18 +6,16 @@ namespace Cruceros.MVC.Web.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly IRoomService _roomService;
+        private readonly ICruceroService _roomService;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(ICruceroService roomService)
         {
             _roomService = roomService;
         }
 
         public ActionResult GetAll()
         {
-            IEnumerable<HabitacionesDto> habitaciones = _roomService.GetAll();
-
-            return View(habitaciones);
+            return View();
         }
     }
 }

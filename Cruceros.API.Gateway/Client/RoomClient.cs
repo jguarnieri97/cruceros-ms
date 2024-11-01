@@ -1,5 +1,6 @@
 ﻿using Cruceros.API.Gateway.Exceptions;
 using Cruceros.API.Habitaciones.Dto;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace Cruceros.API.Gateway.Client
@@ -12,7 +13,7 @@ namespace Cruceros.API.Gateway.Client
     public class RoomClient : IRoomClient
     {
         private HttpClient _httpClient;
-        private const string BASE_URI = "https://localhost:44372/api/";
+        private const string BASE_URI = "https://localhost:7190/api/";
 
         public RoomClient()
         {
@@ -25,9 +26,9 @@ namespace Cruceros.API.Gateway.Client
         {
             try
             {
-                IEnumerable<HabitacionesDto> habitaciones = (IEnumerable<HabitacionesDto>)await _httpClient.GetAsync(BASE_URI + "Habitaciones/ObtenerTodas");
-                
-                return habitaciones;
+                var response = await _httpClient.GetAsync(BASE_URI + "Habitaciones/ObtenerTodas");
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<HabitacionesDto>>(json);
             }
             catch (Exception e)
             {

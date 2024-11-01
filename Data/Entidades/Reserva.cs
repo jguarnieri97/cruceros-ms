@@ -22,4 +22,5 @@ public partial class Reserva
     public virtual Cabina CabinCodNavigation { get; set; } = null!;
 
     public virtual Fecha DateCodNavigation { get; set; } = null!;
+
 }
