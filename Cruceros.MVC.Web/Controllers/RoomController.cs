@@ -15,9 +15,7 @@ namespace Cruceros.MVC.Web.Controllers
 
         public ActionResult GetAll()
         {
-            IEnumerable<HabitacionesDto> habitaciones = _roomService.GetAll();
-
-            return View(habitaciones);
+            return View();
         }
     }
 }
