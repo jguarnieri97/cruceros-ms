@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cruceros.API.Habitaciones\Cruceros.API.Habitaciones.csproj" />
+    <ProjectReference Include="..\Cruceros.API.Reservas\Cruceros.API.Reservas.csproj" />
   </ItemGroup>
 
 </Project>
