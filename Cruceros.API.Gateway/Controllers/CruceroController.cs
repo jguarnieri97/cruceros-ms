@@ -11,9 +11,9 @@ namespace Cruceros.API.Gateway.Controllers;
 [ApiController]
 public class CruceroController : ControllerBase
 {
-    private IRoomService _roomService;
+    private ICruceroService _roomService;
 
-    public CruceroController(IRoomService roomService)
+    public CruceroController(ICruceroService roomService)
     {
         _roomService = roomService;
     }
@@ -25,9 +25,9 @@ public class CruceroController : ControllerBase
     }
 
     [HttpGet("ObtenerHabitacionesHabilitadas")]
-    public IActionResult GetRooms(DateTime dateStar, DateTime dateEnd)
+    public async Task<IActionResult> GetRooms(DateTime dateStar, DateTime dateEnd)
     {
-        var habitacionesDtos = _roomService.GetHabitaciones();
+        var habitacionesDtos = await _roomService.GetHabitaciones();
         var reservasDtos = _roomService.GetReservasBetweenDates(dateStar, dateEnd);
 
         List<HabitacionesHabilitadasDto> habitacionesHabilitadasDto = ConcatenerHabitacionesConReservas(habitacionesDtos, reservasDtos);

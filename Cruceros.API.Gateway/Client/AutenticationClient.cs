@@ -27,7 +27,6 @@ public class AutenticationClient : IAutenticationClient
         {
             var content = JsonContent.Create(new TokenRequestDto(token));
             var response = await _httpClient.PostAsync(BASE_URI + "Token/validate", content);
-            Console.WriteLine(response);
         }
         catch (Exception e)
         {

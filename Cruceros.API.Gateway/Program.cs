@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRoomClient, RoomClient>();
 builder.Services.AddScoped<IAutenticationClient, AutenticationClient>();
-builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<ICruceroService, CruceroService>();
 
 var app = builder.Build();
 

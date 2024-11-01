@@ -4,24 +4,24 @@ using Cruceros.API.Reservas.Dto;
 
 namespace Cruceros.API.Gateway.Services
 {
-    public interface IRoomService
+    public interface ICruceroService
     {
-        public IEnumerable<HabitacionesDto> GetHabitaciones();
+        public Task<IEnumerable<HabitacionesDto>> GetHabitaciones();
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate);
     }
 
-    public class RoomService : IRoomService
+    public class CruceroService : ICruceroService
     {
-        private readonly RoomClient _roomClient;
+        private readonly IRoomClient _roomClient;
 
-        public RoomService(RoomClient roomClient)
+        public CruceroService(IRoomClient roomClient)
         {
             _roomClient = roomClient;
         }
 
-        public IEnumerable<HabitacionesDto> GetHabitaciones()
+        public async Task<IEnumerable<HabitacionesDto>> GetHabitaciones()
         {
-            return (IEnumerable<HabitacionesDto>)_roomClient.GetAll();
+            return await _roomClient.GetAll();
         }
 
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
