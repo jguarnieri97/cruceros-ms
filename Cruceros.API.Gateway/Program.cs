@@ -14,11 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRoomClient, RoomClient>();
 builder.Services.AddScoped<IAutenticationClient, AutenticationClient>();
-
-builder.Services.AddHttpClient<IRoomService, RoomService>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5149"); // URL y puerto de la API interna
-});
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 var app = builder.Build();
 

@@ -13,23 +13,16 @@ namespace Cruceros.API.Gateway.Services
 
     public class RoomService : IRoomService
     {
-        private readonly IRoomService _roomService;
-        private readonly HttpClient _httpClient;
-
-        public RoomService(IRoomService roomService, HttpClient httpClient)
-        {
-            _roomService = roomService;
-            _httpClient = httpClient;
-        }
 
         public IEnumerable<HabitacionesDto> GetAll()
         {
-            return _roomService.GetAll();
+            //return _roomService.GetAll();
+            throw new NotImplementedException();
         }
 
         public IEnumerable<HabitacionesDto> GetHabitaciones()
         {
-            var response = _httpClient.GetAsync("/api/Habitaciones/ObtenerTodas").Result;
+            /*var response = _httpClient.GetAsync("/api/Habitaciones/ObtenerTodas").Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -38,7 +31,8 @@ namespace Cruceros.API.Gateway.Services
 
                 return habitaciones;
             }
-            return null;
+            return null;*/
+            throw new NotImplementedException();
         }
 
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
