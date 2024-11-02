@@ -12,7 +12,6 @@ namespace Cruceros.API.Gateway.Client;
 
 public interface IReservasClient
 {
-    Task<IEnumerable<ReservasDto>> ObtenerReservas();
     Task RealizarReserva(RealizarReservaDto request);
     Task<bool> VerificarReserva(ValidarReservaDto request);
     Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd);
@@ -30,18 +29,16 @@ public class ReservasClient : IReservasClient
             new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-    public Task<IEnumerable<ReservasDto>> ObtenerReservas()
-    {
-        throw new NotImplementedException();
-    }
 
     public async Task RealizarReserva(RealizarReservaDto request)
     {
         try
         {
+            Console.WriteLine($"Servicio: Gateway - INFO - Realizando reserva: {request}");
             var content = JsonContent.Create(request);
             var response = await _httpClient.PostAsync(BASE_URI + "Reservas/RealizarReserva", content);
             if (!response.IsSuccessStatusCode) throw new Exception(response.ReasonPhrase);
+            Console.WriteLine($"Servicio: Gateway - INFO - Habitación reservada con éxito!");
         }
         catch (Exception e)
         {
@@ -53,10 +50,19 @@ public class ReservasClient : IReservasClient
     {
         try
         {
+            Console.WriteLine($"Servicio: Gateway - INFO - Validando reserva solicitada: {request}");
             var content = JsonContent.Create(request);
             var response = await _httpClient.PostAsync(BASE_URI + "Reservas/VerificarReserva", content);
-            if(response.IsSuccessStatusCode) return true;
-            else return false;
+            if(response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Servicio: Gateway - INFO - Validación exitosa!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Servicio: Gateway - ERROR - Ya existe una reserva. Intente con otras fechas.");
+                return false;
+            }
         }
         catch (Exception e)
         {
@@ -66,11 +72,15 @@ public class ReservasClient : IReservasClient
 
     public async Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd)
     {
+        Console.WriteLine($"Servicio: Gateway - INFO - Obteniendo reservas del recurso Reservas/RealizarReserva entre fechas: {dateStart} - {dateEnd}");
+
         string formattedDateStart = dateStart.ToString("yyyy-MM-dd");
         string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd");
 
         var response = await _httpClient.GetAsync(BASE_URI + $"Reservas/ObtenerEntreFechas?dateStart={formattedDateStart}&dateEnd={formattedDateEnd}");
         var json = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine("Servicio: Gateway - INFO - Reservas obtenidas");
 
         return JsonConvert.DeserializeObject<IEnumerable<ReservasDto>>(json);
     }

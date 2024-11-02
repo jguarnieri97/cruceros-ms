@@ -18,6 +18,7 @@ namespace Cruceros.API.Reservas.Controllers
         [HttpGet("ObtenerEntreFechas")]
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd)
         {
+            Console.WriteLine($"Servicio: Reservas - INFO - Obteniendo reservas entre las fechas: {dateStart} - {dateEnd}");
             DateOnly dateFromOnly = DateOnly.FromDateTime(dateStart);
             DateOnly dateToOnly = DateOnly.FromDateTime(dateEnd);
 
@@ -41,7 +42,9 @@ namespace Cruceros.API.Reservas.Controllers
         [HttpPost("VerificarReserva")]
         public IActionResult VerificarReserva([FromBody] ValidarReservaDto request)
         {
+            Console.WriteLine($"Servicio: Reservas - INFO - Validando reserva: {request}");
             bool reservado = _reservasService.VerificarReserva(request);
+            Console.WriteLine($"Servicio: Reservas - INFO - Verificación realizada.");
             return reservado ? Conflict("La habitación se encuentra reservada") : Ok("Se puede realizar la reserva");
         }
     }

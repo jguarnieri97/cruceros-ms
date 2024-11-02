@@ -13,9 +13,14 @@ public class AuthValidationMiddleware
 
     public async Task InvokeAsync(HttpContext context, IAutenticationClient autenticationClient)
     {
+        Console.WriteLine("Servicio: Gateway - INFO - Validando Sesión");
+
         var token = context.Request.Headers.Authorization;
         token = token.ToString().Substring("Bearer ".Length).Trim();
+
         await autenticationClient.VerifySession(token);
+
+        Console.WriteLine("Servicio: Gateway - INFO - Token verificado");
 
         // Call the next delegate/middleware in the pipeline.
         await _next(context);
