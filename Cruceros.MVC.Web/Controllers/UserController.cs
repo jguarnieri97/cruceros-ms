@@ -44,7 +44,7 @@ namespace Cruceros.MVC.Web.Controllers
             {
                 var user = _userService.LoginUser(login);
                 TempData["Username"] = user.Username;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Room");
             }
             return View("Login", login);
         }

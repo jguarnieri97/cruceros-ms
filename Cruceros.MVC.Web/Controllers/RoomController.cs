@@ -1,26 +1,29 @@
 ﻿using Cruceros.API.Gateway.Dto;
 using Cruceros.API.Gateway.Services;
 using Cruceros.API.Habitaciones.Dto;
+using Cruceros.MVC.Web.Client;
+using Cruceros.MVC.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cruceros.MVC.Web.Controllers
 {
     public class RoomController : Controller
     {
-        private readonly ICruceroService _roomService;
+        private IGatewayClient _gatewayClient;
 
-        public RoomController(ICruceroService roomService)
+        public RoomController(IGatewayClient gatewayClient)
         {
-            _roomService = roomService;
+            _gatewayClient = gatewayClient;
         }
 
-        public ActionResult Index(DateTime? dateStart, DateTime? dateEnd)
+        public async Task<ActionResult> Index(DateTime dateStart, DateTime dateEnd)
         {
-            dateStart ??= DateTime.Today;
-            dateEnd ??= DateTime.Today.AddDays(7);
+            dateStart = dateStart.Equals(DateTime.MinValue) ? DateTime.Now : dateStart;
+            dateEnd = dateEnd.Equals(DateTime.MinValue) ? DateTime.Now.AddDays(7) : dateEnd;
 
-            //TO DO: aca implementar llamada a la api gateway 
-            IEnumerable<HabitacionesHabilitadasDto> habitaciones = null;  
+            IEnumerable<HabitacionesHabilitadasDto> habitacionesHabilitadas = await _gatewayClient.ObtenerHabitacionesHabilitadas(dateStart, dateEnd);
+
+            HabitacionesViewModel habitaciones = new HabitacionesViewModel(habitacionesHabilitadas);
 
             return View(habitaciones);
         }

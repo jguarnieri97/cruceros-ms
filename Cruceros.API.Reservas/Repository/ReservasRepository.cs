@@ -20,8 +20,8 @@ namespace Cruceros.API.Reservas.Repository
         }
         public IEnumerable<Reserva> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo)
         {
-            return _ctx.Reservas.Include(x => x.DateCodNavigation)
-                .Where(r => r.DateCodNavigation.DateStart >= dateFrom && r.DateCodNavigation.DateEnd <= dateTo)
+            return _ctx.Reservas.Include(r => r.DateCodNavigation)
+                .Where(r => (r.DateCodNavigation.DateStart <= dateTo && r.DateCodNavigation.DateEnd >= dateFrom))
                 .ToList();
         }
 

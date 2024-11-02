@@ -1,4 +1,8 @@
-﻿using Cruceros.MVC.Web.Service;
+﻿using Cruceros.API.Gateway.Dto;
+using Cruceros.API.Reservas.Dto;
+using Cruceros.MVC.Web.Service;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 namespace Cruceros.MVC.Web.Client;
@@ -6,6 +10,7 @@ namespace Cruceros.MVC.Web.Client;
 public interface IGatewayClient
 {
     void Prueba(string username);
+    Task<IEnumerable<HabitacionesHabilitadasDto>> ObtenerHabitacionesHabilitadas(DateTime dateStart, DateTime dateEnd);
 }
 
 public class GatewayClient : IGatewayClient
@@ -30,5 +35,16 @@ public class GatewayClient : IGatewayClient
 
 
         await _httpClient.GetAsync(BASE_URI + "prueba");
+    }
+
+    public async Task<IEnumerable<HabitacionesHabilitadasDto>> ObtenerHabitacionesHabilitadas(DateTime dateStart, DateTime dateEnd)
+    {
+        string formattedDateStart = dateStart.ToString("yyyy-MM-dd");
+        string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd");
+
+        var response = await _httpClient.GetAsync(BASE_URI + $"ObtenerHabitacionesHabilitadas?dateStart={formattedDateStart}&dateEnd={formattedDateEnd}");
+        var json = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<IEnumerable<HabitacionesHabilitadasDto>>(json);
     }
 }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Cruceros.API.Gateway.Dto
+@model HabitacionesViewModel
+@{
     ViewData["Title"] = "Home Page";
 
     <head>
@@ -16,11 +18,11 @@
         <div class="col search-menu">
             <div>
                 <label for="from-date">desde: </label>
-                <input class="date-picker" type="date" id="from-date" name="from-date">
+                <input class="date-picker" type="date" id="from-date" name="from-date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
             </div>
             <div>
                 <label for="to-date">hasta: </label>
-                <input class="date-picker" type="date" id="to-date" name="to-date">
+                <input class="date-picker" type="date" id="to-date" name="to-date" value="@DateTime.Now.AddDays(7).ToString("yyyy-MM-dd")">
             </div>
             <div>
                 <button class="btn btn-primary btn-naveo search-btn">BUSCAR</button>
@@ -28,31 +30,28 @@
         </div>
     </div>
 
-
-    @* TO DO: Toda esta seccion tiene que ser cargada con los datos de la bdd*@
     <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
         <div class="col-2 price">$700</div>
-        <div class="col-2 room room-a selected">A1</div>
-        <div class="col-2 room reserved">NO DISPONIBLE</div>
-        <div class="col-2 room room-a">A3</div>
-        <div class="col-2 room room-a">A4</div>
-        <div class="col-2 room room-a">A5</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.A)
+        {
+            <div class="col-2 room room-a @(habitacion.Reservada ? "reserved" : "")">@(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)</div>
+        }
     </div>
+
     <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
         <div class="col-2 price">$450</div>
-        <div class="col-2 room room-b">B1</div>
-        <div class="col-2 room room-b">B2</div>
-        <div class="col-2 room reserved">NO DISPONIBLE</div>
-        <div class="col-2 room room-b">B4</div>
-        <div class="col-2 room room-b">B5</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.B)
+        {
+            <div class="col-2 room room-b @(habitacion.Reservada ? "reserved" : "")">@(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)</div>
+        }
     </div>
+
     <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
         <div class="col-2 price">$200</div>
-        <div class="col-2 room room-c">C1</div>
-        <div class="col-2 room room-c">C2</div>
-        <div class="col-2 room room-c">C3</div>
-        <div class="col-2 room room-c">C4</div>
-        <div class="col-2 room reserved">NO DISPONIBLE</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.C)
+        {
+            <div class="col-2 room room-c @(habitacion.Reservada ? "reserved" : "")">@(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)</div>
+        }
     </div>
 
     @* TO DO: Hay que dar una funcionalidad con js para que los datos vayan cambiando cuando se seleccionen distintas habitaciones*@
