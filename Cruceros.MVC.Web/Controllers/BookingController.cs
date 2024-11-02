@@ -20,7 +20,7 @@ namespace Cruceros.MVC.Web.Controllers
 
         public ActionResult ConfirmBooking()
         {
-            return View();
+            return RedirectToAction("ConfirmBooking");
         }
 
     }
