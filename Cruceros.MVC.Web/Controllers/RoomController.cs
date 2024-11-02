@@ -1,4 +1,5 @@
-﻿using Cruceros.API.Gateway.Services;
+﻿using Cruceros.API.Gateway.Dto;
+using Cruceros.API.Gateway.Services;
 using Cruceros.API.Habitaciones.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +14,15 @@ namespace Cruceros.MVC.Web.Controllers
             _roomService = roomService;
         }
 
-        public ActionResult GetAll()
+        public ActionResult Index(DateTime? dateStart, DateTime? dateEnd)
         {
-            return View();
+            dateStart ??= DateTime.Today;
+            dateEnd ??= DateTime.Today.AddDays(7);
+
+            //TO DO: aca implementar llamada a la api gateway 
+            IEnumerable<HabitacionesHabilitadasDto> habitaciones = null;  
+
+            return View(habitaciones);
         }
     }
 }

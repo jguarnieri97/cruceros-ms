@@ -7,7 +7,7 @@ namespace Cruceros.API.Gateway.Services
     public interface ICruceroService
     {
         public Task<IEnumerable<HabitacionesDto>> GetHabitaciones();
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate);
+        public Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime startDate, DateTime endDate);
         public Task<bool> ValidarReserva(ValidarReservaDto request);
         public Task RealizarReserva(RealizarReservaDto request);
     }
@@ -28,9 +28,9 @@ namespace Cruceros.API.Gateway.Services
             return await _roomClient.GetAll();
         }
 
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            return await _reservasClient.GetReservasBetweenDates(startDate, endDate);
         }
 
         public async Task RealizarReserva(RealizarReservaDto request)
@@ -42,7 +42,5 @@ namespace Cruceros.API.Gateway.Services
         {
             return await _reservasClient.VerificarReserva(request);
         }
-
-        
     }
 }

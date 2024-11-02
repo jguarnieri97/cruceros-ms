@@ -1,6 +1,10 @@
-﻿using Azure.Core;
+﻿using Azure;
+using Azure.Core;
 using Cruceros.API.Gateway.Exceptions;
+using Cruceros.API.Habitaciones.Dto;
 using Cruceros.API.Reservas.Dto;
+using Cruceros.Data.Entidades;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
@@ -11,12 +15,13 @@ public interface IReservasClient
     Task<IEnumerable<ReservasDto>> ObtenerReservas();
     Task RealizarReserva(RealizarReservaDto request);
     Task<bool> VerificarReserva(ValidarReservaDto request);
+    Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd);
 }
 
 public class ReservasClient : IReservasClient
 {
     private HttpClient _httpClient;
-    private const string BASE_URI = "https://localhost:7011/auth/api/";
+    private const string BASE_URI = "https://localhost:7011/api/";
 
     public ReservasClient()
     {
@@ -56,5 +61,16 @@ public class ReservasClient : IReservasClient
         {
             throw new ReservasClientException(e.Message);
         }
+    }
+
+    public async Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd)
+    {
+        string formattedDateStart = dateStart.ToString("yyyy-MM-dd");
+        string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd");
+
+        var response = await _httpClient.GetAsync(BASE_URI + $"Reservas/ObtenerEntreFechas?dateStart={formattedDateStart}&dateEnd={formattedDateEnd}");
+        var json = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<IEnumerable<ReservasDto>>(json);
     }
 }

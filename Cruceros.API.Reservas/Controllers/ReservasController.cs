@@ -16,10 +16,10 @@ namespace Cruceros.API.Reservas.Controllers
             _reservasService = reservasService;
         }
         [HttpGet("ObtenerEntreFechas")]
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd)
         {
-            DateOnly dateFromOnly = DateOnly.FromDateTime(dateFrom);
-            DateOnly dateToOnly = DateOnly.FromDateTime(dateTo);
+            DateOnly dateFromOnly = DateOnly.FromDateTime(dateStart);
+            DateOnly dateToOnly = DateOnly.FromDateTime(dateEnd);
 
             return _reservasService.GetReservasBetweenDates(dateFromOnly, dateToOnly);
         }

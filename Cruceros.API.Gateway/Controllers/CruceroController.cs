@@ -24,10 +24,10 @@ public class CruceroController : ControllerBase
     }
 
     [HttpGet("ObtenerHabitacionesHabilitadas")]
-    public async Task<IActionResult> GetRooms(DateTime dateStar, DateTime dateEnd)
+    public async Task<IActionResult> GetRooms(DateTime dateStart, DateTime dateEnd)
     {
         var habitacionesDtos = await _cruceroService.GetHabitaciones();
-        var reservasDtos = _cruceroService.GetReservasBetweenDates(dateStar, dateEnd);
+        var reservasDtos = await _cruceroService.GetReservasBetweenDates(dateStart, dateEnd);
 
         List<HabitacionesHabilitadasDto> habitacionesHabilitadasDto = ConcatenerHabitacionesConReservas(habitacionesDtos, reservasDtos);
         return Ok(habitacionesHabilitadasDto);
@@ -43,7 +43,7 @@ public class CruceroController : ControllerBase
             var codigoReserva = Guid.NewGuid().ToString();
             await _cruceroService.RealizarReserva(new RealizarReservaDto(codigoReserva, request));
             return Ok("Reserva realizada con éxito!");
-        } 
+        }
         else
         {
             return Conflict("Reserva no válida");
@@ -52,17 +52,32 @@ public class CruceroController : ControllerBase
 
     private List<HabitacionesHabilitadasDto> ConcatenerHabitacionesConReservas(IEnumerable<HabitacionesDto> habitacionesDtos, IEnumerable<ReservasDto> reservasDtos)
     {
-        var habitacionesHabilitadas = habitacionesDtos.Select(h => new HabitacionesHabilitadasDto
+        var habitacionesHabilitadas = new List<HabitacionesHabilitadasDto>();
+        if (reservasDtos is not null)
+        {
+            habitacionesHabilitadas = habitacionesDtos.Select(h => new HabitacionesHabilitadasDto
+            {
+                Id = h.Id,
+                CabinCod = h.CabinCod,
+                Precio = h.Precio,
+                TipoCabina = h.TipoCabina,
+                Descripcion = h.Descripcion,
+                Reservada = reservasDtos.Any(r => r.CabinCod == h.CabinCod)
+            }).ToList();
+            return habitacionesHabilitadas;
+        }
+
+        habitacionesHabilitadas = habitacionesDtos.Select(h => new HabitacionesHabilitadasDto
         {
             Id = h.Id,
             CabinCod = h.CabinCod,
             Precio = h.Precio,
             TipoCabina = h.TipoCabina,
             Descripcion = h.Descripcion,
-            Reservada = reservasDtos.Any(r => r.CabinCod == h.CabinCod)
+            Reservada = false
         }).ToList();
-
         return habitacionesHabilitadas;
+
 
     }
 }
