@@ -8,7 +8,7 @@ namespace Cruceros.API.Reservas.Repository
     {
         public IEnumerable<Reserva> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo);
         void RealizarReserva(RealizarReservaDto realizarReservaDto);
-        bool VerificarReserva(RealizarReservaDto realizarReservaDto);
+        bool VerificarReserva(ValidarReservaDto realizarReservaDto);
     }
     public class ReservasRepository : IReservasRepository
     {
@@ -20,17 +20,17 @@ namespace Cruceros.API.Reservas.Repository
         }
         public IEnumerable<Reserva> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo)
         {
-            return _ctx.Reservas.Include(x => x.DateCodNavigation)
-                .Where(r => r.DateCodNavigation.DateStart >= dateFrom && r.DateCodNavigation.DateEnd <= dateTo)
+            return _ctx.Reservas.Include(r => r.DateCodNavigation)
+                .Where(r => (r.DateCodNavigation.DateStart <= dateTo && r.DateCodNavigation.DateEnd >= dateFrom))
                 .ToList();
         }
 
-        public bool VerificarReserva(RealizarReservaDto realizarReservaDto)
+        public bool VerificarReserva(ValidarReservaDto validarDto)
         {
             var estaReservado = _ctx.Reservas.Include(r => r.DateCodNavigation)
-                                  .Any(r => r.CabinCod == realizarReservaDto.CabinCod &&
-                                ((DateOnly.FromDateTime(realizarReservaDto.DateStart) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(realizarReservaDto.DateStart) >= r.DateCodNavigation.DateStart) ||
-                                (DateOnly.FromDateTime(realizarReservaDto.DateEnd) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(realizarReservaDto.DateEnd) >= r.DateCodNavigation.DateStart)));
+                                  .Any(r => r.CabinCod == validarDto.CabinCod &&
+                                ((DateOnly.FromDateTime(validarDto.DateStart) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(validarDto.DateStart) >= r.DateCodNavigation.DateStart) ||
+                                (DateOnly.FromDateTime(validarDto.DateEnd) <= r.DateCodNavigation.DateEnd && DateOnly.FromDateTime(validarDto.DateEnd) >= r.DateCodNavigation.DateStart)));
 
             return estaReservado;
         }

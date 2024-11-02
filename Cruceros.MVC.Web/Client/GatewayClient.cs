@@ -1,11 +1,16 @@
-﻿using Cruceros.MVC.Web.Service;
+﻿using Cruceros.API.Gateway.Dto;
+using Cruceros.MVC.Web.Exceptions;
+using Cruceros.MVC.Web.Models;
+using Cruceros.MVC.Web.Service;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace Cruceros.MVC.Web.Client;
 
 public interface IGatewayClient
 {
-    void Prueba(string username);
+    Task<IEnumerable<HabitacionesHabilitadasDto>> ObtenerHabitacionesHabilitadas(DateTime dateStart, DateTime dateEnd);
+    Task RegistrarReserva(ReservarHabitacionModel reserva);
 }
 
 public class GatewayClient : IGatewayClient
@@ -23,12 +28,33 @@ public class GatewayClient : IGatewayClient
         _sessionContext = sessionContext;
     }
 
-    public async void Prueba(string username)
+    public async Task<IEnumerable<HabitacionesHabilitadasDto>> ObtenerHabitacionesHabilitadas(DateTime dateStart, DateTime dateEnd)
     {
+        string formattedDateStart = dateStart.ToString("yyyy-MM-dd");
+        string formattedDateEnd = dateEnd.ToString("yyyy-MM-dd");
         _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", _sessionContext.GetSession(username));
+            new AuthenticationHeaderValue("Bearer", _sessionContext.GetSessionToken());
 
+        var response = await _httpClient.GetAsync(BASE_URI + $"ObtenerHabitacionesHabilitadas?dateStart={formattedDateStart}&dateEnd={formattedDateEnd}");
+        var json = await response.Content.ReadAsStringAsync();
 
-        await _httpClient.GetAsync(BASE_URI + "prueba");
+        return JsonConvert.DeserializeObject<IEnumerable<HabitacionesHabilitadasDto>>(json);
+    }
+
+    
+    public async Task RegistrarReserva(ReservarHabitacionModel request)
+    {
+        try
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", _sessionContext.GetSessionToken());
+
+            var content = JsonContent.Create(request);
+            await _httpClient.PostAsync(BASE_URI + "ReservarHabitacion", content);
+        }
+        catch (Exception e)
+        {
+            throw new AutenticationClientException(e.Message);
+        }
     }
 }

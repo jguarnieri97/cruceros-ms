@@ -8,7 +8,7 @@ namespace Cruceros.API.Reservas.Services
     {
         public IEnumerable<ReservasDto> GetReservasBetweenDates(DateOnly dateFrom, DateOnly dateTo);
         void RealizarReserva(RealizarReservaDto realizarReservaDto);
-        bool VerificarReserva(RealizarReservaDto realizarReservaDto);
+        bool VerificarReserva(ValidarReservaDto realizarReservaDto);
     }
     public class ReservasService : IReservasService
     {
@@ -34,7 +34,7 @@ namespace Cruceros.API.Reservas.Services
             return reservasDto;
         }
 
-        public bool VerificarReserva(RealizarReservaDto realizarReservaDto)
+        public bool VerificarReserva(ValidarReservaDto realizarReservaDto)
         {
             return _reservasRepository.VerificarReserva(realizarReservaDto);
         }
@@ -45,9 +45,9 @@ namespace Cruceros.API.Reservas.Services
             {
                 _reservasRepository.RealizarReserva(realizarReservaDto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Console.WriteLine(e.ToString());
             }
         }
     }

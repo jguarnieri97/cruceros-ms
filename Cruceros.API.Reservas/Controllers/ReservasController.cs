@@ -16,10 +16,11 @@ namespace Cruceros.API.Reservas.Controllers
             _reservasService = reservasService;
         }
         [HttpGet("ObtenerEntreFechas")]
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime dateFrom, DateTime dateTo)
+        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime dateStart, DateTime dateEnd)
         {
-            DateOnly dateFromOnly = DateOnly.FromDateTime(dateFrom);
-            DateOnly dateToOnly = DateOnly.FromDateTime(dateTo);
+            Console.WriteLine($"Servicio: Reservas - INFO - Obteniendo reservas entre las fechas: {dateStart} - {dateEnd}");
+            DateOnly dateFromOnly = DateOnly.FromDateTime(dateStart);
+            DateOnly dateToOnly = DateOnly.FromDateTime(dateEnd);
 
             return _reservasService.GetReservasBetweenDates(dateFromOnly, dateToOnly);
         }
@@ -34,15 +35,17 @@ namespace Cruceros.API.Reservas.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
         }
 
         [HttpPost("VerificarReserva")]
-        public IActionResult VerificarReserva([FromBody] RealizarReservaDto realizarReservaDto)
+        public IActionResult VerificarReserva([FromBody] ValidarReservaDto request)
         {
-            bool reservado = _reservasService.VerificarReserva(realizarReservaDto);
-            return reservado ? BadRequest("La habitación se encuentra reservada") : Ok("Se puede realizar la reserva");
+            Console.WriteLine($"Servicio: Reservas - INFO - Validando reserva: {request}");
+            bool reservado = _reservasService.VerificarReserva(request);
+            Console.WriteLine($"Servicio: Reservas - INFO - Verificación realizada.");
+            return reservado ? Conflict("La habitación se encuentra reservada") : Ok("Se puede realizar la reserva");
         }
     }
 }

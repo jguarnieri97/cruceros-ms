@@ -7,16 +7,20 @@ namespace Cruceros.API.Gateway.Services
     public interface ICruceroService
     {
         public Task<IEnumerable<HabitacionesDto>> GetHabitaciones();
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate);
+        public Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime startDate, DateTime endDate);
+        public Task<bool> ValidarReserva(ValidarReservaDto request);
+        public Task RealizarReserva(RealizarReservaDto request);
     }
 
     public class CruceroService : ICruceroService
     {
         private readonly IRoomClient _roomClient;
+        private readonly IReservasClient _reservasClient;
 
-        public CruceroService(IRoomClient roomClient)
+        public CruceroService(IRoomClient roomClient, IReservasClient reservasClient)
         {
             _roomClient = roomClient;
+            _reservasClient = reservasClient;
         }
 
         public async Task<IEnumerable<HabitacionesDto>> GetHabitaciones()
@@ -24,9 +28,19 @@ namespace Cruceros.API.Gateway.Services
             return await _roomClient.GetAll();
         }
 
-        public IEnumerable<ReservasDto> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<ReservasDto>> GetReservasBetweenDates(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            return await _reservasClient.GetReservasBetweenDates(startDate, endDate);
+        }
+
+        public async Task RealizarReserva(RealizarReservaDto request)
+        {
+            await _reservasClient.RealizarReserva(request);
+        }
+
+        public async Task<bool> ValidarReserva(ValidarReservaDto request)
+        {
+            return await _reservasClient.VerificarReserva(request);
         }
     }
 }

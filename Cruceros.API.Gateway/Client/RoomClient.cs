@@ -26,8 +26,12 @@ namespace Cruceros.API.Gateway.Client
         {
             try
             {
+                Console.WriteLine($"Servicio: Gateway - INFO - Obteniendo habitaciones del recurso Habitaciones/ObtenerTodas ");
+
                 var response = await _httpClient.GetAsync(BASE_URI + "Habitaciones/ObtenerTodas");
                 var json = await response.Content.ReadAsStringAsync();
+
+                Console.WriteLine("Servicio: Gateway - INFO - Habitaciones obtenidas");
                 return JsonConvert.DeserializeObject<IEnumerable<HabitacionesDto>>(json);
             }
             catch (Exception e)

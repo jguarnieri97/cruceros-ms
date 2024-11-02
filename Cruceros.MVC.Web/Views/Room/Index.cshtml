@@ -1,0 +1,131 @@
+﻿@using Cruceros.API.Gateway.Dto
+@model HabitacionesViewModel
+@{
+    ViewData["Title"] = "Home Page";
+
+    <head>
+        <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    </head>
+}
+
+<div class="w-100 banner">
+    <h5><span class="option-span">Naveo: </span>Hacemos de tu viaje soñado una realidad</h5>
+    <h6>Reservá tu habitación acá</h6>
+</div>
+
+<div class="container">
+    <form action="@Url.Action("Index", "Room")" method="get">
+        <div class="row" style="width: 100%; height: auto;">
+            <div class="col search-menu">
+                <div>
+                    <label for="from-date">Desde: </label>
+                    <input class="date-picker" type="date" id="from-date" name="dateStart" value="@Model.DateStart.ToString("yyyy-MM-dd")">
+                </div>
+                <div>
+                    <label for="to-date">Hasta: </label>
+                    <input class="date-picker" type="date" id="to-date" name="dateEnd" value="@Model.DateEnd.ToString("yyyy-MM-dd")">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary btn-naveo search-btn">BUSCAR</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
+        <div class="col-2 price">$700</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.A)
+        {
+            <div id="@habitacion.CabinCod" class="col-2 room room-a @(habitacion.Reservada ? "reserved" : "")"
+                 data-cabin-cod="@habitacion.CabinCod"
+                 data-precio="@habitacion.Precio"
+                 data-tipo-cabina="@habitacion.TipoCabina"
+                 data-descripcion="@habitacion.Descripcion">
+                @(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)
+            </div>
+        }
+    </div>
+
+    <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
+        <div class="col-2 price">$450</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.B)
+        {
+            <div id="@habitacion.CabinCod" class="col-2 room room-b @(habitacion.Reservada ? "reserved" : "")"
+                 data-cabin-cod="@habitacion.CabinCod"
+                 data-precio="@habitacion.Precio"
+                 data-tipo-cabina="@habitacion.TipoCabina"
+                 data-descripcion="@habitacion.Descripcion">
+                @(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)
+            </div>
+        }
+    </div>
+
+    <div class="row room-selector" style="width: 100%; height: auto; justify-content: space-around;">
+        <div class="col-2 price">$200</div>
+        @foreach (HabitacionesHabilitadasDto habitacion in Model.C)
+        {
+            <div id="@habitacion.CabinCod" class="col-2 room room-c @(habitacion.Reservada ? "reserved" : "")"
+                 data-cabin-cod="@habitacion.CabinCod"
+                 data-precio="@habitacion.Precio"
+                 data-tipo-cabina="@habitacion.TipoCabina"
+                 data-descripcion="@habitacion.Descripcion">
+                @(habitacion.Reservada ? "NO DISPONIBLE" : habitacion.CabinCod)
+            </div>
+        }
+    </div>
+
+    <div class="row selected-room-menu">
+        <p style="font-weight: bold;"><span class="option-span">Habitación seleccionada: </span><span id="selected-room-code"></span></p>
+        <p style="font-weight: bold;"><span class="option-span">Precio: </span><span id="selected-room-price"></span></p>
+        <p style="font-weight: bold;">
+            <span class="option-span">Descripción: </span><span id="selected-room-description"></span>
+        </p>
+        <div class="row-reserve">
+            <button class="btn btn-primary btn-naveo" onclick="reservar()">CONTINUAR RESERVA</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    const rooms = document.querySelectorAll('.room');
+    const selectedRoomCode = document.getElementById('selected-room-code');
+    const selectedRoomPrice = document.getElementById('selected-room-price');
+    const selectedRoomDescription = document.getElementById('selected-room-description');
+
+    rooms.forEach(room => {
+        room.addEventListener('click', function () {
+            if (this.classList.contains('reserved')) {
+                return;
+            }
+            rooms.forEach(r => r.classList.remove('selected'));
+            this.classList.add('selected');
+
+            selectedRoomCode.textContent = this.dataset.cabinCod;
+            selectedRoomPrice.textContent = `$${this.dataset.precio}`;
+            selectedRoomDescription.textContent = this.dataset.descripcion;
+        });
+    });
+</script>
+<script>
+    function reservar() {
+        const selectedRoomCode = document.getElementById('selected-room-code').textContent;
+        const dateStart = document.getElementById('from-date').value;
+        const dateEnd = document.getElementById('to-date').value;
+        const user = '@ViewData["Username"]';
+        var url = new URL(window.location.href);
+
+        url.pathname = "Room/Reservar";
+        url.searchParams.set('cabinCod', selectedRoomCode);
+        url.searchParams.set('userName', user);
+        url.searchParams.set('dateStart', dateStart);
+        url.searchParams.set('dateEnd', dateEnd);
+
+        var link = document.createElement('a');
+        link.href = url.href
+
+        document.body.appendChild(link);
+        link.click();
+    }
+</script>

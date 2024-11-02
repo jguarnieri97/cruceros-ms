@@ -1,8 +1,8 @@
 using Cruceros.API.Gateway.Client;
-using Cruceros.API.Gateway.Service;
 using Cruceros.API.Gateway.Services;
 
-
+var mode = "PROD";
+//var mode = "DEV";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoomClient, RoomClient>();
 builder.Services.AddScoped<IAutenticationClient, AutenticationClient>();
 builder.Services.AddScoped<ICruceroService, CruceroService>();
+builder.Services.AddScoped<IReservasClient, ReservasClient>();
 
 var app = builder.Build();
 
@@ -29,7 +30,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseAuthValidation();
+if(mode == "PROD") app.UseAuthValidation();
 
 app.MapControllers();
 
