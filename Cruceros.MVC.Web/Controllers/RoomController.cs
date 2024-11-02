@@ -24,6 +24,8 @@ namespace Cruceros.MVC.Web.Controllers
             IEnumerable<HabitacionesHabilitadasDto> habitacionesHabilitadas = await _gatewayClient.ObtenerHabitacionesHabilitadas(dateStart, dateEnd);
 
             HabitacionesViewModel habitaciones = new HabitacionesViewModel(habitacionesHabilitadas);
+            habitaciones.DateStart = dateStart;
+            habitaciones.DateEnd = dateEnd;
 
             return View(habitaciones);
         }
