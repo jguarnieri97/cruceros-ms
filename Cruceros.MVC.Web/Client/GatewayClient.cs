@@ -1,5 +1,8 @@
-﻿using Cruceros.API.Gateway.Dto;
+﻿using Azure.Core;
+using Cruceros.API.Gateway.Dto;
 using Cruceros.API.Reservas.Dto;
+using Cruceros.MVC.Web.Exceptions;
+using Cruceros.MVC.Web.Models;
 using Cruceros.MVC.Web.Service;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,6 +14,7 @@ public interface IGatewayClient
 {
     void Prueba(string username);
     Task<IEnumerable<HabitacionesHabilitadasDto>> ObtenerHabitacionesHabilitadas(DateTime dateStart, DateTime dateEnd);
+    void RegistrarReserva(ReservarHabitacionModel reserva);
 }
 
 public class GatewayClient : IGatewayClient
@@ -49,4 +53,16 @@ public class GatewayClient : IGatewayClient
     }
 
     //TODO: hacer el post al recurso gateway para registrar
+    public async void RegistrarReserva(ReservarHabitacionModel request)
+    {
+        try
+        {
+            var content = JsonContent.Create(request);
+            await _httpClient.PostAsync(BASE_URI + "ReservarHabitacion", content);
+        }
+        catch (Exception e)
+        {
+            throw new AutenticationClientException(e.Message);
+        }
+    }
 }

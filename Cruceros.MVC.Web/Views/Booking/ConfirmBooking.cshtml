@@ -13,10 +13,11 @@
             <p>Desde: <b>@ViewData["dateStart"]</b> - Hasta: <b>@ViewData["dateEnd"]</b></p>
             <p></p>
             <p class="complete-data-text">Completá los datos restantes</p>
-            <form class="form-pago" asp-action="RegisterUser" method="post">
+            <form class="form-pago" asp-action="RegistrarReserva" method="post">
                 <input asp-for="CabinCod" type="text" id="cabinCod" value="@ViewData["cabinCod"]" style="display: none">
                 <input asp-for="DateStart" type="text" id="dateStart" value="@ViewData["dateStart"]" style="display: none">
                 <input asp-for="DateEnd" type="text" id="dateEnd" value="@ViewData["dateEnd"]" style="display: none">
+                <input asp-for="User" type="text" id="user" value="@ViewData["userName"]" style="display: none">
                 <input class="form-control" type="number" id="cantidadPasajeros" name="cantidadPasajeros" min="1" required placeholder="CANT. DE PASAJEROS:">
                 <input class="form-control" type="text" id="numeroTarjeta" name="numeroTarjeta" pattern="\d{16}" placeholder="NRO. DE TARJETA:" required>
                 <input class="form-control" type="number" id="dniTitular" name="dniTitular" required placeholder="DNI DEL TITULAR:">

@@ -1,4 +1,5 @@
 ﻿using Cruceros.Data.Entidades;
+using Cruceros.MVC.Web.Client;
 using Cruceros.MVC.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,12 @@ namespace Cruceros.MVC.Web.Controllers;
 
 public class BookingController : Controller
 {
-    
+    private IGatewayClient _gatewayClient;
+
+    public BookingController(IGatewayClient gatewayClient)
+    {
+        _gatewayClient = gatewayClient;
+    }
 
     public ActionResult BookingSuccess()
     {
@@ -26,7 +32,8 @@ public class BookingController : Controller
     public ActionResult RegistrarReserva(ReservarHabitacionModel model) {
         if (ModelState.IsValid)
         {
-            //TODO: service y cliente
+            _gatewayClient.RegistrarReserva(model);
+            return RedirectToAction("BookingSuccess");
         }
         return View("ConfirmBooking", model);
     }
