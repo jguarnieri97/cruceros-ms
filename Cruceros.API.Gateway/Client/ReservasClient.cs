@@ -1,4 +1,7 @@
-﻿using Cruceros.API.Reservas.Dto;
+﻿using Azure.Core;
+using Cruceros.API.Gateway.Exceptions;
+using Cruceros.API.Reservas.Dto;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 
 namespace Cruceros.API.Gateway.Client;
@@ -6,8 +9,8 @@ namespace Cruceros.API.Gateway.Client;
 public interface IReservasClient
 {
     Task<IEnumerable<ReservasDto>> ObtenerReservas();
-    Task RealizarReserva();
-    Task VerificarReserva();
+    Task RealizarReserva(RealizarReservaDto request);
+    Task<bool> VerificarReserva(ValidarReservaDto request);
 }
 
 public class ReservasClient : IReservasClient
@@ -27,13 +30,31 @@ public class ReservasClient : IReservasClient
         throw new NotImplementedException();
     }
 
-    public Task RealizarReserva()
+    public async Task RealizarReserva(RealizarReservaDto request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var content = JsonContent.Create(request);
+            var response = await _httpClient.PostAsync(BASE_URI + "Reservas/RealizarReserva", content);
+        }
+        catch (Exception e)
+        {
+            throw new ReservasClientException(e.Message);
+        }
     }
 
-    public Task VerificarReserva()
+    public async Task<bool> VerificarReserva(ValidarReservaDto request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var content = JsonContent.Create(request);
+            var response = await _httpClient.PostAsync(BASE_URI + "Reservas/VerificarReserva", content);
+            if(response.IsSuccessStatusCode) return true;
+            else return false;
+        }
+        catch (Exception e)
+        {
+            throw new ReservasClientException(e.Message);
+        }
     }
 }

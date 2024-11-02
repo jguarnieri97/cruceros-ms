@@ -1,6 +1,6 @@
 ﻿using Cruceros.API.Gateway.Client;
 
-namespace Cruceros.API.Gateway.Service;
+namespace Cruceros.API.Gateway.Services;
 
 public class AuthValidationMiddleware
 {
@@ -18,7 +18,7 @@ public class AuthValidationMiddleware
         await autenticationClient.VerifySession(token);
 
         // Call the next delegate/middleware in the pipeline.
-       await _next(context);
+        await _next(context);
     }
 }
 

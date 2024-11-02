@@ -13,6 +13,17 @@
             LastName = lastName;
         }
 
+        public RealizarReservaDto(string cod, ReservarHabitacionDto reserva)
+        {
+            Cod = cod;
+            User = reserva.User;
+            CabinCod = reserva.CabinCod;
+            DateStart = reserva.DateStart;
+            DateEnd = reserva.DateEnd;
+            FirstName = reserva.FirstName;
+            LastName = reserva.LastName;
+        }
+
         public string Cod { get; set; } = null!;
         public string User { get; set; } = null!;
         public string CabinCod { get; set; } = null!;

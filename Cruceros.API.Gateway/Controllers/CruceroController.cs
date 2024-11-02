@@ -2,7 +2,6 @@
 using Cruceros.API.Gateway.Services;
 using Cruceros.API.Habitaciones.Dto;
 using Cruceros.API.Reservas.Dto;
-using Cruceros.Data.Entidades;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cruceros.API.Gateway.Controllers;
@@ -11,11 +10,11 @@ namespace Cruceros.API.Gateway.Controllers;
 [ApiController]
 public class CruceroController : ControllerBase
 {
-    private ICruceroService _roomService;
+    private ICruceroService _cruceroService;
 
-    public CruceroController(ICruceroService roomService)
+    public CruceroController(ICruceroService cruceroService)
     {
-        _roomService = roomService;
+        _cruceroService = cruceroService;
     }
 
     [HttpGet("prueba")]
@@ -27,11 +26,28 @@ public class CruceroController : ControllerBase
     [HttpGet("ObtenerHabitacionesHabilitadas")]
     public async Task<IActionResult> GetRooms(DateTime dateStar, DateTime dateEnd)
     {
-        var habitacionesDtos = await _roomService.GetHabitaciones();
-        var reservasDtos = _roomService.GetReservasBetweenDates(dateStar, dateEnd);
+        var habitacionesDtos = await _cruceroService.GetHabitaciones();
+        var reservasDtos = _cruceroService.GetReservasBetweenDates(dateStar, dateEnd);
 
         List<HabitacionesHabilitadasDto> habitacionesHabilitadasDto = ConcatenerHabitacionesConReservas(habitacionesDtos, reservasDtos);
         return Ok(habitacionesHabilitadasDto);
+    }
+
+    [HttpPost("ReservarHabitacion")]
+    public async Task<IActionResult> Reservar(ReservarHabitacionDto request)
+    {
+        //TODO: hacer funcionar el método
+        var validarReserva = new ValidarReservaDto(request.CabinCod, request.DateStart, request.DateEnd);
+        if (await _cruceroService.ValidarReserva(validarReserva))
+        {
+            var codigoReserva = Guid.NewGuid().ToString();
+            await _cruceroService.RealizarReserva(new RealizarReservaDto(codigoReserva, request));
+            return Ok("Reserva realizada con éxito!");
+        } 
+        else
+        {
+            return Conflict("Reserva no válida");
+        }
     }
 
     private List<HabitacionesHabilitadasDto> ConcatenerHabitacionesConReservas(IEnumerable<HabitacionesDto> habitacionesDtos, IEnumerable<ReservasDto> reservasDtos)
