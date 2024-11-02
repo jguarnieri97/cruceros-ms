@@ -45,9 +45,9 @@ namespace Cruceros.API.Reservas.Services
             {
                 _reservasRepository.RealizarReserva(realizarReservaDto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Console.WriteLine(e.ToString());
             }
         }
     }

@@ -1,7 +1,8 @@
 using Cruceros.API.Gateway.Client;
 using Cruceros.API.Gateway.Services;
 
-
+//var mode = "PROD";
+var mode = "DEV";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,7 +30,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseAuthValidation();
+if(mode == "PROD") app.UseAuthValidation();
 
 app.MapControllers();
 

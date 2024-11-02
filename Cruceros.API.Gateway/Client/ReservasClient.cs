@@ -41,6 +41,7 @@ public class ReservasClient : IReservasClient
         {
             var content = JsonContent.Create(request);
             var response = await _httpClient.PostAsync(BASE_URI + "Reservas/RealizarReserva", content);
+            if (!response.IsSuccessStatusCode) throw new Exception(response.ReasonPhrase);
         }
         catch (Exception e)
         {

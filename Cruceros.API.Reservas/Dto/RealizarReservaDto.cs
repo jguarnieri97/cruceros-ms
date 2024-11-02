@@ -24,6 +24,8 @@
             LastName = reserva.LastName;
         }
 
+        public RealizarReservaDto() { }
+
         public string Cod { get; set; } = null!;
         public string User { get; set; } = null!;
         public string CabinCod { get; set; } = null!;

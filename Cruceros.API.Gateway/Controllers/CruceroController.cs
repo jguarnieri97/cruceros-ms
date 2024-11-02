@@ -36,7 +36,6 @@ public class CruceroController : ControllerBase
     [HttpPost("ReservarHabitacion")]
     public async Task<IActionResult> Reservar(ReservarHabitacionDto request)
     {
-        //TODO: hacer funcionar el método
         var validarReserva = new ValidarReservaDto(request.CabinCod, request.DateStart, request.DateEnd);
         if (await _cruceroService.ValidarReserva(validarReserva))
         {
