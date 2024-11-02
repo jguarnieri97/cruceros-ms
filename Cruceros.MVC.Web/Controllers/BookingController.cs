@@ -1,7 +1,6 @@
-﻿using Cruceros.Data.Entidades;
-using Cruceros.MVC.Web.Client;
+﻿using Cruceros.MVC.Web.Client;
 using Cruceros.MVC.Web.Models;
-using Microsoft.AspNetCore.Http;
+using Cruceros.MVC.Web.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cruceros.MVC.Web.Controllers;
@@ -9,14 +8,17 @@ namespace Cruceros.MVC.Web.Controllers;
 public class BookingController : Controller
 {
     private IGatewayClient _gatewayClient;
+    private ISessionContext _sessionContext;
 
-    public BookingController(IGatewayClient gatewayClient)
+    public BookingController(IGatewayClient gatewayClient, ISessionContext sessionContext)
     {
         _gatewayClient = gatewayClient;
+        _sessionContext = sessionContext;
     }
 
     public ActionResult BookingSuccess()
     {
+        ViewData["Username"] = _sessionContext.GetSessionUser();
         return View();
     }
 
@@ -29,10 +31,10 @@ public class BookingController : Controller
         return View();
     }
 
-    public ActionResult RegistrarReserva(ReservarHabitacionModel model) {
+    public async Task<ActionResult> RegistrarReserva(ReservarHabitacionModel model) {
         if (ModelState.IsValid)
         {
-            _gatewayClient.RegistrarReserva(model);
+            await _gatewayClient.RegistrarReserva(model);
             return RedirectToAction("BookingSuccess");
         }
         return View("ConfirmBooking", model);

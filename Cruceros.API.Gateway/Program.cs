@@ -1,8 +1,8 @@
 using Cruceros.API.Gateway.Client;
 using Cruceros.API.Gateway.Services;
 
-//var mode = "PROD";
-var mode = "DEV";
+var mode = "PROD";
+//var mode = "DEV";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

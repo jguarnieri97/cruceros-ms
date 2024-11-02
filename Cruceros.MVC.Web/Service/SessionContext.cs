@@ -2,30 +2,32 @@
 
 public interface ISessionContext
 {
-    string GetSession(string username);
+    string GetSessionToken();
+    string GetSessionUser();
     void SaveSession(string username, string token);
 }
 
 public class SessionContext : ISessionContext
 {
-    private static List<KeyValuePair<string, string>> _sessions;
+    private static KeyValuePair<string, string> _session;
 
     public SessionContext()
     {
-        if (_sessions == null)
-        {
-            _sessions = new List<KeyValuePair<string, string>>();
-        }
+       
     }
 
-    public string GetSession(string username)
+    public string GetSessionToken()
     {
-        var user = _sessions.FirstOrDefault(x => x.Key == username);
-        return user.Value;
+        return _session.Value;
+    }
+
+    public string GetSessionUser()
+    {
+        return _session.Key;
     }
 
     public void SaveSession(string username, string token)
     {
-        _sessions.Add(new KeyValuePair<string, string>(username, token));
+        _session = new KeyValuePair<string, string>(username, token);
     }
 }
