@@ -47,4 +47,6 @@ public class GatewayClient : IGatewayClient
 
         return JsonConvert.DeserializeObject<IEnumerable<HabitacionesHabilitadasDto>>(json);
     }
+
+    //TODO: hacer el post al recurso gateway para registrar
 }

@@ -3,17 +3,25 @@
         <link rel="stylesheet" href="~/css/reserva.css" asp-append-version="true" />
     </head>
 }
+@model Cruceros.MVC.Web.Models.ReservarHabitacionModel
 
 <div class="container">
     <div class="row">
         <div class="col col-form">
             <p class="reserva-text">TU RESERVA YA CASI ESTÁ LISTA</p>
+            <p>Estás por Reservar la habitación <b>@ViewData["cabinCod"]</b></p>
+            <p>Desde: <b>@ViewData["dateStart"]</b> - Hasta: <b>@ViewData["dateEnd"]</b></p>
+            <p></p>
             <p class="complete-data-text">Completá los datos restantes</p>
-            <form class="form-pago" action="/procesar-pago" method="POST">
+            <form class="form-pago" asp-action="RegisterUser" method="post">
+                <input asp-for="CabinCod" type="text" id="cabinCod" value="@ViewData["cabinCod"]" style="display: none">
+                <input asp-for="DateStart" type="text" id="dateStart" value="@ViewData["dateStart"]" style="display: none">
+                <input asp-for="DateEnd" type="text" id="dateEnd" value="@ViewData["dateEnd"]" style="display: none">
                 <input class="form-control" type="number" id="cantidadPasajeros" name="cantidadPasajeros" min="1" required placeholder="CANT. DE PASAJEROS:">
                 <input class="form-control" type="text" id="numeroTarjeta" name="numeroTarjeta" pattern="\d{16}" placeholder="NRO. DE TARJETA:" required>
                 <input class="form-control" type="number" id="dniTitular" name="dniTitular" required placeholder="DNI DEL TITULAR:">
-                <input class="form-control" type="text" id="nombreTitular" name="nombreTitular" required placeholder="NOMBRE DEL TITULAR:">
+                <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder="NOMBRE DEL TITULAR:">
+                <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder="APELLIDO DEL TITULAR:">
                 <div class="form-pago-style">
                     <input class="form-control" type="text" id="expiracion" name="expiracion" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" placeholder="EXP:" required>
                     <input class="form-control" type="number" id="cvv" name="cvv" min="100" max="999" required placeholder="CVV:">

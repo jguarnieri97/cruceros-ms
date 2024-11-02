@@ -84,7 +84,7 @@
             <span class="option-span">Descripción: </span><span id="selected-room-description"></span>
         </p>
         <div class="row-reserve">
-            <button class="btn btn-primary btn-naveo">CONTINUAR RESERVA</button>
+            <button class="btn btn-primary btn-naveo" onclick="reservar()">CONTINUAR RESERVA</button>
         </div>
     </div>
 
@@ -111,4 +111,24 @@
         });
     });
 </script>
+<script>
+    function reservar() {
+        const selectedRoomCode = document.getElementById('selected-room-code').textContent;
+        const dateStart = document.getElementById('from-date').value;
+        const dateEnd = document.getElementById('to-date').value;
+        const user = '@ViewData["Username"]';
+        var url = new URL(window.location.href);
 
+        url.pathname = "Room/Reservar";
+        url.searchParams.set('cabinCod', selectedRoomCode);
+        url.searchParams.set('userName', user);
+        url.searchParams.set('dateStart', dateStart);
+        url.searchParams.set('dateEnd', dateEnd);
+
+        var link = document.createElement('a');
+        link.href = url.href
+
+        document.body.appendChild(link);
+        link.click();
+    }
+</script>
