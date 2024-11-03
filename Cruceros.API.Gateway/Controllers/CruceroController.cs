@@ -31,7 +31,7 @@ public class CruceroController : ControllerBase
         var habitacionesDtos = await _cruceroService.GetHabitaciones();
         var reservasDtos = await _cruceroService.GetReservasBetweenDates(dateStart, dateEnd);
 
-        List<HabitacionesHabilitadasDto> habitacionesHabilitadasDto = ConcatenerHabitacionesConReservas(habitacionesDtos, reservasDtos);
+        List<HabitacionesHabilitadasDto> habitacionesHabilitadasDto = _cruceroService.ConcatenerHabitacionesConReservas(habitacionesDtos, reservasDtos);
         return Ok(habitacionesHabilitadasDto);
     }
 
@@ -50,37 +50,5 @@ public class CruceroController : ControllerBase
         {
             return Conflict("Reserva no válida");
         }
-    }
-
-    private List<HabitacionesHabilitadasDto> ConcatenerHabitacionesConReservas(IEnumerable<HabitacionesDto> habitacionesDtos, IEnumerable<ReservasDto> reservasDtos)
-    {
-        Console.WriteLine("Servicio: Gateway - INFO - Procesando reservas y habitaciones");
-        var habitacionesHabilitadas = new List<HabitacionesHabilitadasDto>();
-        if (reservasDtos is not null)
-        {
-            habitacionesHabilitadas = habitacionesDtos.Select(h => new HabitacionesHabilitadasDto
-            {
-                Id = h.Id,
-                CabinCod = h.CabinCod,
-                Precio = h.Precio,
-                TipoCabina = h.TipoCabina,
-                Descripcion = h.Descripcion,
-                Reservada = reservasDtos.Any(r => r.CabinCod == h.CabinCod)
-            }).ToList();
-            return habitacionesHabilitadas;
-        }
-
-        habitacionesHabilitadas = habitacionesDtos.Select(h => new HabitacionesHabilitadasDto
-        {
-            Id = h.Id,
-            CabinCod = h.CabinCod,
-            Precio = h.Precio,
-            TipoCabina = h.TipoCabina,
-            Descripcion = h.Descripcion,
-            Reservada = false
-        }).ToList();
-        return habitacionesHabilitadas;
-
-
     }
 }
